@@ -55,7 +55,7 @@ public class TestYandex {
         driver.close();
         driver.switchTo().window(browserTabs.get(1));
 
-        checkMailStatus.clickInboxBtn();
+       // checkMailStatus.clickInboxBtn();  //если нужно явно нажать кнопку "Входящие"
 
 
         List<WebElement> mailInBox = driver.findElements(By.xpath("//span[@class='mail-MessageSnippet-Item mail-MessageSnippet-Item_subject']"));
