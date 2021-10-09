@@ -48,7 +48,7 @@ public class TestYandex {
 
         checkMailStatus.clickMailBtn();
 
-        ArrayList<String> browserTabs = new ArrayList<String>(driver.getWindowHandles());
+        ArrayList<String> browserTabs = new ArrayList<>(driver.getWindowHandles());
 
         //change focus
         driver.switchTo().window(browserTabs.get(0));
