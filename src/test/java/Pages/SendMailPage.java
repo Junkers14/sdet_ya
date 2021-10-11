@@ -63,6 +63,10 @@ public class SendMailPage {
         driver.findElement(By.className("ComposeSendButton_desktop")).click(); }
 
 
+    public void clickReturnToInbox (){
+        driver.findElement(By.xpath("//a[@href='#inbox']")).click(); }
+
+
 
 
 }
