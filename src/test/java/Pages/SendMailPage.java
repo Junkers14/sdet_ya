@@ -14,7 +14,6 @@ public class SendMailPage {
         this.driver = driver;
     }
 
-
     /**
      * определение локатора в поле "Кому"
      */
@@ -51,13 +50,15 @@ public class SendMailPage {
     public void inputLetterText(String input) {
         inputLetterText.sendKeys(input); }
 
-
-
-    //нажатие на кнопку "Написать"
+    /**
+     * нажатие на кнопку "Написать"
+     */
     public void clickNewMailBtn (){
         driver.findElement(By.xpath("//span[@class='mail-ComposeButton-Text']")).click(); }
 
-    //нажатие на кнопку "Отправить"
+    /**
+     * нажатие на кнопку "Отправить"
+     */
     public void clickSendBtn (){
         driver.findElement(By.className("ComposeSendButton_desktop")).click(); }
 

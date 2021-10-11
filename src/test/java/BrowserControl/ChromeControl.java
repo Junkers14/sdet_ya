@@ -19,10 +19,10 @@ public class ChromeControl {
         driver.switchTo().window(browserTabs.get(tabId));
     }
 
-    public void CloseTab (int tabIdForClose, int tabIdForFocus, WebDriver drv){
-        ArrayList<String> browserTabs = new ArrayList<>(drv.getWindowHandles());
-        drv.switchTo().window(browserTabs.get(tabIdForClose));
-        drv.close();
-        drv.switchTo().window(browserTabs.get(tabIdForFocus));
+    public void CloseTab (int tabIdForClose, int tabIdForFocus, WebDriver currentWebDriver){
+        ArrayList<String> browserTabs = new ArrayList<>(currentWebDriver.getWindowHandles());
+        currentWebDriver.switchTo().window(browserTabs.get(tabIdForClose));
+        currentWebDriver.close();
+        currentWebDriver.switchTo().window(browserTabs.get(tabIdForFocus));
     }
 }
