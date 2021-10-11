@@ -60,7 +60,7 @@ public class TestYandex {
         chromeControl.DriverWait(1000);
         sendMailPage.clickReturnToInbox();
         checkMailStatusPage.clickRefreshBtn();
-        chromeControl.DriverWait(1000);
+        chromeControl.DriverWait(1500);
         int lettersAfterTest = checkMailStatusPage.countOfMail();
 
         if (compareClass.CompareLetters(lettersBeforeTest, lettersAfterTest))
