@@ -15,9 +15,9 @@ import java.util.List;
 public class TestYandex {
     public static OpenYandexPage openYandexPage;
     public static LoginToYandexMailPage loginToYandexMailPage;
-    public static CheckMailStatus checkMailStatus;
+    public static CheckMailStatusPage checkMailStatusPage;
     public static WebDriver driver;
-    public static SendMail sendMail;
+    public static SendMailPage sendMailPage;
 
     @BeforeMethod
     public static void setup(){
@@ -26,8 +26,8 @@ public class TestYandex {
 
         openYandexPage = new OpenYandexPage(driver);
         loginToYandexMailPage = new LoginToYandexMailPage(driver);
-        checkMailStatus = new CheckMailStatus(driver);
-        sendMail = new SendMail(driver);
+        checkMailStatusPage = new CheckMailStatusPage(driver);
+        sendMailPage = new SendMailPage(driver);
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
@@ -46,7 +46,7 @@ public class TestYandex {
         loginToYandexMailPage.clickLoginUsrBtn();
 
 
-        checkMailStatus.clickMailBtn();
+        checkMailStatusPage.clickMailBtn();
 
         ArrayList<String> browserTabs = new ArrayList<>(driver.getWindowHandles());
 
@@ -76,12 +76,12 @@ public class TestYandex {
         System.out.println("Всего писем = " + count);
         System.out.println("Писем с темой \"" + ConfigurationProperties.getProperty("theme") + "\" = " + countTheme);
 
-        sendMail.clickNewMailBtn();
-        sendMail.inputSubj(ConfigurationProperties.getProperty("theme"));
-        sendMail.inputMail(ConfigurationProperties.getProperty("usr")+"@yandex.ru");
+        sendMailPage.clickNewMailBtn();
+        sendMailPage.inputSubj(ConfigurationProperties.getProperty("theme"));
+        sendMailPage.inputMail(ConfigurationProperties.getProperty("usr")+"@yandex.ru");
 
-        sendMail.inputLetterText("Найдено " + countTheme + " писем\\ьма");
-        sendMail.clickSendBtn();
+        sendMailPage.inputLetterText("Найдено " + countTheme + " писем\\ьма");
+        sendMailPage.clickSendBtn();
 
     }
 
