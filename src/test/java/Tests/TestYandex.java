@@ -13,7 +13,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 import java.time.Duration;
+import java.util.logging.LogManager;
 
 
 public class TestYandex {
@@ -29,6 +32,13 @@ public class TestYandex {
 
     @BeforeMethod
     public static void setup(){
+
+        try {
+            LogManager.getLogManager().readConfiguration(
+                    TestYandex.class.getResourceAsStream("/logging.properties"));
+        } catch (IOException e) {
+            System.err.println("Could not setup logger configuration: " + e);
+        }
         System.setProperty(
                 ConfigurationProperties.getProperty("driver"),
                 ConfigurationProperties.getProperty("path_to_chromedriver_win"));
