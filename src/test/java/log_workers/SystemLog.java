@@ -1,4 +1,4 @@
-package LogWorkers;
+package log_workers;
 
 import java.util.logging.Logger;
 

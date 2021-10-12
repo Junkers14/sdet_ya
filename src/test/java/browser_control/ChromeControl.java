@@ -1,4 +1,4 @@
-package BrowserControl;
+package browser_control;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

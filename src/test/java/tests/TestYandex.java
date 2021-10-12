@@ -1,13 +1,12 @@
-package Tests;
+package tests;
 
-import BrowserControl.ChromeControl;
-import Config.ConfigurationProperties;
-import LogWorkers.SystemLog;
-import Pages.CheckMailStatusPage;
-import Pages.LoginToYandexMailPage;
-import Pages.OpenYandexPage;
-import Pages.SendMailPage;
-import SimpleLogic.CompareClass;
+import browser_control.ChromeControl;
+import config.ConfigurationProperties;
+import log_workers.SystemLog;
+import pages.CheckMailStatusPage;
+import pages.LoginToYandexMailPage;
+import pages.OpenYandexPage;
+import pages.SendMailPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -26,7 +25,6 @@ public class TestYandex {
     public static WebDriver driver;
     public static SendMailPage sendMailPage;
     public static ChromeControl chromeControl;
-    public static CompareClass compareClass;
     public static SystemLog systemLog;
 
 
@@ -49,10 +47,9 @@ public class TestYandex {
         checkMailStatusPage = new CheckMailStatusPage(driver);
         sendMailPage = new SendMailPage(driver);
         chromeControl = new ChromeControl(driver);
-        compareClass = new CompareClass();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get(Config.ConfigurationProperties.getProperty("url"));
+        driver.get(config.ConfigurationProperties.getProperty("url"));
         systemLog.loggerTestOutput("Setup is completed");
     }
 
@@ -80,7 +77,7 @@ public class TestYandex {
         systemLog.loggerTestOutput("Стало писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
                 (lettersAfterTest = checkMailStatusPage.countOfMail()));
-        if (compareClass.CompareCountOfLetters(lettersBeforeTest, lettersAfterTest))
+        if (lettersBeforeTest < lettersAfterTest)
             systemLog.loggerTestOutput(
                     "C каждым запуском теста, кол-во писем с темой " +
                             ConfigurationProperties.getProperty("theme")+ " увеличивается");
