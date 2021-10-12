@@ -4,6 +4,10 @@ import Config.ConfigurationProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 import java.util.List;
 
 public class CheckMailStatusPage {
@@ -26,15 +30,19 @@ public class CheckMailStatusPage {
     /**
      *  нажатие на кнопку "Обновить"
      */
-    public void clickRefreshBtn (){
-        driver.findElement(By.xpath("//span[@data-click-action='mailbox.check']")).click();
-        }
+    public void clickRefreshBtn (WebDriver drv){
+        WebElement elementRefreshMail = new WebDriverWait(drv, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//span[@data-click-action='mailbox.check']")));
+        elementRefreshMail.click();
+         }
 
     /**
      *  подсчет количества писем с заданной темой
      */
     public int countOfMail (){
-        List<WebElement> mailInBox = driver.findElements(By.xpath("//span[@class='mail-MessageSnippet-Item mail-MessageSnippet-Item_subject']"));
+        List<WebElement> mailInBox = driver.findElements(By.xpath(
+                "//span[@class='mail-MessageSnippet-Item mail-MessageSnippet-Item_subject']"));
         int countTheme = 0;
         for (WebElement elements: mailInBox
         ) {
@@ -43,7 +51,6 @@ public class CheckMailStatusPage {
                 countTheme++;
             }
         }
-        System.out.println("Писем с темой \"" + ConfigurationProperties.getProperty("theme") + "\" = " + countTheme);
     return countTheme;
     }
 

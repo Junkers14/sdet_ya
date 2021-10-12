@@ -64,12 +64,7 @@ public class SendMailPage {
 
 
     public void clickReturnToInbox () {
-        try {
-            driver.findElement(By.xpath("//a[@href='#inbox']")).click();
-        } catch (Exception e) {
-
-        }
-
+            driver.findElement(By.className("ComposeDoneScreen-Link")).click();
     }
 
 
