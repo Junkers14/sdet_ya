@@ -1,8 +1,10 @@
 package BrowserControl;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class ChromeControl {
 
@@ -18,11 +20,9 @@ public class ChromeControl {
         currentWebDriver.switchTo().window(browserTabs.get(tabIdForFocus));
     }
 
-    public void DriverWait (int time){
-        try {
-            TimeUnit.MILLISECONDS.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void DriverWaitForDocumentReady (int timeInSeconds){
+       new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds)).until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript(
+                        "return document.readyState").equals("complete"));
     }
 }

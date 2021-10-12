@@ -8,12 +8,8 @@ import Pages.LoginToYandexMailPage;
 import Pages.OpenYandexPage;
 import Pages.SendMailPage;
 import SimpleLogic.CompareClass;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -33,8 +29,9 @@ public class TestYandex {
 
     @BeforeMethod
     public static void setup(){
-        System.setProperty("webdriver.chrome.driver",
-                ConfigurationProperties.getProperty("chromedriver_win"));
+        System.setProperty(
+                ConfigurationProperties.getProperty("driver"),
+                ConfigurationProperties.getProperty("path_to_chromedriver_win"));
         systemLog = new SystemLog();
         driver = new ChromeDriver();
         openYandexPage = new OpenYandexPage(driver);
@@ -46,7 +43,7 @@ public class TestYandex {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(Config.ConfigurationProperties.getProperty("url"));
-        System.out.println("Setup is completed");
+        systemLog.loggerTestOutput("Setup is completed");
     }
 
     @Test
@@ -61,31 +58,30 @@ public class TestYandex {
         chromeControl.CloseTab(0, 1, driver);
         systemLog.loggerTestOutput("Было писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
-                String.valueOf(lettersBeforeTest = checkMailStatusPage.countOfMail()));
+                (lettersBeforeTest = checkMailStatusPage.countOfMail()));
         sendMailPage.clickNewMailBtn();
         sendMailPage.inputSubj(ConfigurationProperties.getProperty("theme"));
         sendMailPage.inputMail(ConfigurationProperties.getProperty("usr")+"@yandex.ru");
         sendMailPage.inputLetterText("Найдено " + lettersBeforeTest + " писем\\ьма");
         sendMailPage.clickSendBtn();
-        //chromeControl.DriverWait(1000);
         sendMailPage.clickReturnToInbox();
-        checkMailStatusPage.clickRefreshBtn(driver);
-        chromeControl.DriverWait(1500);
+        driver.get(ConfigurationProperties.getProperty("mail_url"));
+        chromeControl.DriverWaitForDocumentReady(5);
         systemLog.loggerTestOutput("Стало писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
-                String.valueOf(lettersAfterTest = checkMailStatusPage.countOfMail()));
-        if (compareClass.CompareLetters(lettersBeforeTest, lettersAfterTest))
+                (lettersAfterTest = checkMailStatusPage.countOfMail()));
+        if (compareClass.CompareCountOfLetters(lettersBeforeTest, lettersAfterTest))
             systemLog.loggerTestOutput(
                     "C каждым запуском теста, кол-во писем с темой " +
-                            "Simbirsoft theme увеличивается");
+                            ConfigurationProperties.getProperty("theme")+ " увеличивается");
             else
             systemLog.loggerTestOutput(
                     "ERROR! C каждым запуском теста, кол-во писем с темой " +
-                            "Simbirsoft theme НЕ увеличивается");
+                            ConfigurationProperties.getProperty("theme")+ " НЕ увеличивается");
     }
 
     @AfterMethod
     public void after_test(){
-    //driver.quit();
+    driver.quit();
     }
 }
