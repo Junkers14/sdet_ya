@@ -1,4 +1,4 @@
-package Config;
+package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,14 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class SendMail {
+public class SendMailPage {
 
     public WebDriver driver;
-    public SendMail (WebDriver driver){
+    public SendMailPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }
-
 
     /**
      * определение локатора в поле "Кому"
@@ -51,17 +50,22 @@ public class SendMail {
     public void inputLetterText(String input) {
         inputLetterText.sendKeys(input); }
 
-
-
-    //нажатие на кнопку "Написать"
+    /**
+     * нажатие на кнопку "Написать"
+     */
     public void clickNewMailBtn (){
         driver.findElement(By.xpath("//span[@class='mail-ComposeButton-Text']")).click(); }
 
-    //нажатие на кнопку "Отправить"
+    /**
+     * нажатие на кнопку "Отправить"
+     */
     public void clickSendBtn (){
         driver.findElement(By.className("ComposeSendButton_desktop")).click(); }
 
 
+    public void clickReturnToInbox () {
+            driver.findElement(By.className("ComposeDoneScreen-Link")).click();
+    }
 
 
 }
