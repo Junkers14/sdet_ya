@@ -65,7 +65,7 @@ public class TestYandex {
         loginToYandexMailPage.inputPasswd(ConfigurationProperties.getProperty("psswd"));
         loginToYandexMailPage.clickLoginUsrBtn();
         checkMailStatusPage.clickMailBtn();
-        chromeControl.CloseTab(0, 1, driver);
+        chromeControl.CloseTab(0, 1);
         systemLog.loggerTestOutput("Было писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
                 (lettersBeforeTest = checkMailStatusPage.countOfMail()));
