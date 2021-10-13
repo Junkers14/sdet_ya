@@ -1,6 +1,7 @@
 package tests;
 
 import com.google.gson.Gson;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.testng.annotations.Test;
@@ -34,31 +35,42 @@ public class TestAPI {
     public void testAPICase() throws IOException {
         systemLog = new SystemLog();
 
-        Content getResult = Request.Get("https://reqres.in/api/users")
-                .execute().returnContent();
-        String strFromJSON = getResult.asString();
-        Gson gson = new Gson();
-        Data getJSONData = gson.fromJson(strFromJSON,Data.class);
-        JSONParser(getJSONData, ConfigurationProperties.getProperty("user1"), ConfigurationProperties.getProperty("email1") );
+        JSONParser(GetRequest("https://reqres.in/api/users"),
+                ConfigurationProperties.getProperty("user1"),
+                ConfigurationProperties.getProperty("email1") );
 
-
-        getResult = Request.Get("https://reqres.in/api/users?page=2")
-                .execute().returnContent();
-        strFromJSON = getResult.asString();
-        getJSONData = gson.fromJson(strFromJSON,Data.class);
-        JSONParser(getJSONData, ConfigurationProperties.getProperty("user2"), ConfigurationProperties.getProperty("email2") );
-
+        JSONParser(GetRequest("https://reqres.in/api/users?page=2"),
+                ConfigurationProperties.getProperty("user2"),
+                ConfigurationProperties.getProperty("email2") );
     }
+
+    public Data GetRequest (String url) throws IOException{
+        try {
+            Content getResult = Request.Get(url)
+                    .execute().returnContent();
+            String strFromJSON = getResult.asString();
+            Gson gson = new Gson();
+            return gson.fromJson(strFromJSON,Data.class);
+        } catch (ClientProtocolException e) {
+            systemLog.loggerTestOutputWarning(e.toString());
+        }
+        return null;
+    }
+
 
     public void JSONParser(Data gsonData, String usr, String email){
 
-        for (UserList data : gsonData.data) {
-            systemLog.loggerTestOutput(data.id + " | " + data.email + " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
-            if (
-                    ((data.first_name+" "+data.last_name).equals(usr)) &&
-                            (data.email.equals(email))
-            ) systemLog.loggerTestOutputWarning("The User " + usr + " has an email address " + email);
-
+        if (gsonData!=null) {
+            for (UserList data : gsonData.data) {
+                systemLog.loggerTestOutput(data.id + " | " + data.email +
+                        " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
+                if (((data.first_name + " " + data.last_name).equals(usr)) &&
+                        (data.email.equals(email))) systemLog.loggerTestOutputWarning(
+                        "The User " + usr + " has an email address " + email);
+            }
+        }
+        else{
+            systemLog.loggerTestOutputWarning("JSON DATA ERROR!");
         }
     }
 
