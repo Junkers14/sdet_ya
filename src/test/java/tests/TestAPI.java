@@ -1,36 +1,66 @@
 package tests;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import com.google.gson.Gson;
+import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Request;
 import org.testng.annotations.Test;
+import java.io.IOException;
+import java.util.List;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import config.ConfigurationProperties;
+
 
 public class TestAPI {
 
-    @Test
-    public  void testAPICase(){
-/*        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("https://reqres.in/api/users").openConnection();
-            connection.setRequestMethod("GET");
-            InputStream is = connection.getInputStream();
-            byte[] bytes= new byte[is.available()];
-            is.read(bytes);
-            System.out.print(new String(bytes));
-        } catch (Exception ignored) {}*/
-        String lineFromBuffer, resultString = null;
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-
-            HttpGet request = new HttpGet("https://reqres.in/api/users");
-            HttpResponse response = httpClient.execute(request);
-            BufferedReader bufferedReader = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
-
-            while ((lineFromBuffer = bufferedReader.readLine()) != null) {
-                resultString=lineFromBuffer;}
-            System.out.println(resultString);
-        } catch (Exception ignored) {}
+    class Data{
+        public int page;
+        public int per_page;
+        public int total;
+        public int total_pages;
+        public List<UserList> data;
     }
+
+    class UserList {
+        public int id;
+        public String email;
+        public String first_name;
+        public String last_name;
+        public String avatar;
+    }
+
+
+    @Test
+    public void testAPICase() throws IOException {
+
+        Content getResult = Request.Get("https://reqres.in/api/users")
+                .execute().returnContent();
+        String strFromJSON = getResult.asString();
+        Gson gson = new Gson();
+        Data getJSONData = gson.fromJson(strFromJSON,Data.class);
+        JSONParser(getJSONData, ConfigurationProperties.getProperty("user1"), ConfigurationProperties.getProperty("email1") );
+
+
+        getResult = Request.Get("https://reqres.in/api/users?page=2")
+                .execute().returnContent();
+        strFromJSON = getResult.asString();
+        getJSONData = gson.fromJson(strFromJSON,Data.class);
+        JSONParser(getJSONData, ConfigurationProperties.getProperty("user2"), ConfigurationProperties.getProperty("email2") );
+
+    }
+
+    public void JSONParser(Data gsonData, String usr, String email){
+
+        for (UserList data : gsonData.data) {
+            System.out.println(data.id + " | " + data.email + " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
+            if (
+                    ((data.first_name+" "+data.last_name).equals(usr)) &&
+                            (data.email.equals(email))
+            )
+                System.out.println(usr + " = " + email);
+
+        }
+    }
+
+
+
 }
