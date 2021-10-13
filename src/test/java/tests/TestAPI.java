@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.util.List;
 
 import config.ConfigurationProperties;
+import log_workers.SystemLog;
 
 
 public class TestAPI {
-
+    private static SystemLog systemLog;
     class Data{
         public int page;
         public int per_page;
@@ -31,6 +32,7 @@ public class TestAPI {
 
     @Test
     public void testAPICase() throws IOException {
+        systemLog = new SystemLog();
 
         Content getResult = Request.Get("https://reqres.in/api/users")
                 .execute().returnContent();
@@ -51,12 +53,11 @@ public class TestAPI {
     public void JSONParser(Data gsonData, String usr, String email){
 
         for (UserList data : gsonData.data) {
-            System.out.println(data.id + " | " + data.email + " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
+            systemLog.loggerTestOutput(data.id + " | " + data.email + " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
             if (
                     ((data.first_name+" "+data.last_name).equals(usr)) &&
                             (data.email.equals(email))
-            )
-                System.out.println(usr + " = " + email);
+            ) systemLog.loggerTestOutputWarning("The User " + usr + " has an email address " + email);
 
         }
     }
