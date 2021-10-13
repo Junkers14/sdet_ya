@@ -35,16 +35,16 @@ public class TestAPI {
     public void testAPICase() throws IOException {
         systemLog = new SystemLog();
 
-        JSONParser(GetRequest("https://reqres.in/api/users"),
+        jsonParser(getRequest("https://reqres.in/api/users"),
                 ConfigurationProperties.getProperty("user1"),
                 ConfigurationProperties.getProperty("email1") );
 
-        JSONParser(GetRequest("https://reqres.in/api/users?page=2"),
+        jsonParser(getRequest("https://reqres.in/api/users?page=2"),
                 ConfigurationProperties.getProperty("user2"),
                 ConfigurationProperties.getProperty("email2") );
     }
 
-    public Data GetRequest (String url) throws IOException{
+    public Data getRequest (String url) throws IOException{
         try {
             Content getResult = Request.Get(url)
                     .execute().returnContent();
@@ -58,7 +58,7 @@ public class TestAPI {
     }
 
 
-    public void JSONParser(Data gsonData, String usr, String email){
+    public void jsonParser(Data gsonData, String usr, String email){
 
         if (gsonData!=null) {
             for (UserList data : gsonData.data) {
