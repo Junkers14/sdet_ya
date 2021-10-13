@@ -3,16 +3,15 @@ package tests;
 import browser_control.ChromeControl;
 import config.ConfigurationProperties;
 import log_workers.SystemLog;
+import org.testng.annotations.AfterTest;
 import pages.CheckMailStatusPage;
 import pages.LoginToYandexMailPage;
 import pages.OpenYandexPage;
 import pages.SendMailPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.logging.LogManager;
@@ -87,8 +86,11 @@ public class TestYandex {
                             ConfigurationProperties.getProperty("theme")+ " НЕ увеличивается");
     }
 
-    @AfterMethod
+
+
+    @AfterTest
     public void after_test(){
-    driver.quit();
+            driver.quit();
+
     }
 }
