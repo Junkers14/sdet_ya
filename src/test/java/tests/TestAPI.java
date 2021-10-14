@@ -34,15 +34,15 @@ public class TestAPI {
     @Test
     public void testAPICase() throws IOException {
         systemLog = new SystemLog();
+        Data getData = getRequest(ConfigurationProperties.getProperty("api_url"));
 
-        jsonParser(getRequest("https://reqres.in/api/users"),
-                ConfigurationProperties.getProperty("user1"),
-                ConfigurationProperties.getProperty("email1") );
-
-        jsonParser(getRequest("https://reqres.in/api/users?page=2"),
-                ConfigurationProperties.getProperty("user2"),
-                ConfigurationProperties.getProperty("email2") );
-    }
+        for (int currentPage = getData.page; currentPage <= getData.total_pages; currentPage++)
+             {
+            jsonParser(getRequest(ConfigurationProperties.getProperty("api_url")+"?page="+currentPage),
+                    ConfigurationProperties.getProperty("user"+currentPage),
+                    ConfigurationProperties.getProperty("email"+currentPage));
+             }
+        }
 
     public Data getRequest (String url) throws IOException{
         try {
@@ -59,13 +59,10 @@ public class TestAPI {
 
 
     public void jsonParser(Data gsonData, String usr, String email){
-
         if (gsonData!=null) {
-            for (UserList data : gsonData.data) {
-                systemLog.loggerTestOutput(data.id + " | " + data.email +
-                        " | " + data.first_name + " | " + data.last_name + " | " + data.avatar);
-                if (((data.first_name + " " + data.last_name).equals(usr)) &&
-                        (data.email.equals(email))) systemLog.loggerTestOutputWarning(
+            for (UserList userListData : gsonData.data) {
+                if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
+                        (userListData.email.equals(email))) systemLog.loggerTestOutputWarning(
                         "The User " + usr + " has an email address " + email);
             }
         }
