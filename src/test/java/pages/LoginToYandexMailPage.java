@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +10,6 @@ public class LoginToYandexMailPage {
     public LoginToYandexMailPage (WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
-
     }
 
     /**
@@ -26,10 +24,15 @@ public class LoginToYandexMailPage {
     public void inputLogin(String input) {
         inputLoginField.sendKeys(input); }
 
-    // кнопка "Войти" после ввода имени пользователя
-    public void clickLoginUsrBtn (){
-        driver.findElement(By.xpath("//button[@id='passp:sign-in']")).click(); }
 
+    @FindBy(xpath = "//button[@id='passp:sign-in']")
+    private WebElement clickLoginUsrBtn;
+
+    /**
+     * метод для нажатия кнопки авторизации пользователя
+     */
+    public void clickLoginUsrBtn (){
+        clickLoginUsrBtn.click();}
 
     /**
      * определение локатора поля ввода passwd

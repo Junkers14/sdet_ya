@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -51,20 +50,31 @@ public class SendMailPage {
         inputLetterText.sendKeys(input); }
 
     /**
-     * нажатие на кнопку "Написать"
+     * поиск и нажатие на кнопку "Написать"
      */
+    @FindBy (xpath = "//span[@class='mail-ComposeButton-Text']")
+    private WebElement clickNewMailBtn;
+
     public void clickNewMailBtn (){
-        driver.findElement(By.xpath("//span[@class='mail-ComposeButton-Text']")).click(); }
+        clickNewMailBtn.click(); }
 
     /**
-     * нажатие на кнопку "Отправить"
+     * поиск и нажатие на кнопку "Отправить"
      */
-    public void clickSendBtn (){
-        driver.findElement(By.className("ComposeSendButton_desktop")).click(); }
+    @FindBy (className = "ComposeSendButton_desktop")
+    private WebElement clickSendBtn;
 
+    public void clickSendBtn (){
+        clickSendBtn.click(); }
+
+    /**
+     * поиск и нажатие на кнопку "Вернуться в почту" на всплывающем фрейме после успешной отправки
+     */
+    @FindBy (className = "ComposeDoneScreen-Link")
+    private WebElement clickReturnToInbox;
 
     public void clickReturnToInbox () {
-            driver.findElement(By.className("ComposeDoneScreen-Link")).click();
+            clickReturnToInbox.click();
     }
 
 
