@@ -53,7 +53,7 @@ public class TestYandex {
     }
 
     @Test
-    public void case1Test(){
+    public void testYandexSendMailCase(){
         int lettersBeforeTest, lettersAfterTest;
         openYandexPage.clickLoginBtn();
         loginToYandexMailPage.inputLogin(ConfigurationProperties.getProperty("usr"));

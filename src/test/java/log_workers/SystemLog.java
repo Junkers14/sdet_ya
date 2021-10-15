@@ -10,8 +10,5 @@ public class SystemLog {
         log.info(logMessage);
     }
 
-    public void loggerTestOutputWarning(String logMessage)
-    {
-        log.warning(logMessage);
-    }
+    public void loggerAPIOutputWarning (String logMessage) {log.warning(logMessage);}
 }

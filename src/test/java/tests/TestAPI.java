@@ -52,7 +52,7 @@ public class TestAPI {
             Gson gson = new Gson();
             return gson.fromJson(strFromJSON,Data.class);
         } catch (ClientProtocolException e) {
-            systemLog.loggerTestOutputWarning(e.toString());
+            systemLog.loggerAPIOutputWarning(e.toString());
         }
         return null;
     }
@@ -62,12 +62,12 @@ public class TestAPI {
         if (gsonData!=null) {
             for (UserList userListData : gsonData.data) {
                 if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
-                        (userListData.email.equals(email))) systemLog.loggerTestOutputWarning(
+                        (userListData.email.equals(email))) systemLog.loggerAPIOutputWarning(
                         "The User " + usr + " has an email address " + email);
             }
         }
         else{
-            systemLog.loggerTestOutputWarning("JSON DATA ERROR!");
+            systemLog.loggerAPIOutputWarning("JSON DATA ERROR!");
         }
     }
 
