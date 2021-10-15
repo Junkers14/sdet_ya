@@ -49,7 +49,7 @@ public class TestYandex {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(config.ConfigurationProperties.getProperty("url"));
-        systemLog.loggerTestOutput("Setup is completed");
+        systemLog.loggerWebOutput("Setup is completed");
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TestYandex {
         loginToYandexMailPage.clickLoginUsrBtn();
         checkMailStatusPage.clickMailBtn();
         chromeControl.CloseTab(0, 1);
-        systemLog.loggerTestOutput("Было писем с темой \"" +
+        systemLog.loggerWebOutput("Было писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
                 (lettersBeforeTest = checkMailStatusPage.countOfMail()));
         sendMailPage.clickNewMailBtn();
@@ -73,15 +73,15 @@ public class TestYandex {
         sendMailPage.clickReturnToInbox();
         driver.get(ConfigurationProperties.getProperty("mail_url"));
         chromeControl.DriverWaitForDocumentReady(5);
-        systemLog.loggerTestOutput("Стало писем с темой \"" +
+        systemLog.loggerWebOutput("Стало писем с темой \"" +
                 ConfigurationProperties.getProperty("theme") + "\" = " +
                 (lettersAfterTest = checkMailStatusPage.countOfMail()));
         if (lettersBeforeTest < lettersAfterTest)
-            systemLog.loggerTestOutput(
+            systemLog.loggerWebOutput(
                     "C каждым запуском теста, кол-во писем с темой " +
                             ConfigurationProperties.getProperty("theme")+ " увеличивается");
             else
-            systemLog.loggerTestOutput(
+            systemLog.loggerWebOutput(
                     "ERROR! C каждым запуском теста, кол-во писем с темой " +
                             ConfigurationProperties.getProperty("theme")+ " НЕ увеличивается");
     }
