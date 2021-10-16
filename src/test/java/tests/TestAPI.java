@@ -6,7 +6,6 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ import java.util.List;
 
 import config.ConfigurationProperties;
 import log_workers.SystemLog;
-
-import static org.testng.Assert.assertThrows;
 
 
 public class TestAPI {
@@ -36,8 +33,8 @@ public class TestAPI {
         public String avatar;
     }
     String api_url;
-    List<String> cfgUsrName = new ArrayList<String>();
-    List<String> cfgUsrEmail = new ArrayList<String>();
+    List<String> cfgUsrName = new ArrayList<>();
+    List<String> cfgUsrEmail = new ArrayList<>();
     int totalUsers;
 
 
@@ -95,26 +92,20 @@ public class TestAPI {
         return null;
     }
 
-
     public void jsonParser(Data gsonData, String usr, String email){
             for (UserList userListData : gsonData.data) {
-                /**
-                 *  проверка в лог
-                 */
-                if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
-                        (userListData.email.equals(email))) systemLog.loggerAPIOutputWarning(
-                        "The User " + usr + " has an email address " + email);
 
-                /**
-                 *  проверка через assertEquals
-                 */
+                if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
+                        (userListData.email.equals(email))) {
+                    systemLog.loggerAPIOutputWarning(
+                    "The User " + usr + " has an email address " + email);
+                }
+
                 if ((userListData.first_name + " " + userListData.last_name).equals(usr))
                 {
                     Assert.assertEquals(email,userListData.email);
                 }
             }
     }
-
-
 
 }
