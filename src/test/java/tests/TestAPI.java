@@ -13,6 +13,7 @@ import java.util.List;
 
 import config.ConfigurationProperties;
 import log_workers.SystemLog;
+import org.testng.asserts.SoftAssert;
 
 
 public class TestAPI {
@@ -60,6 +61,7 @@ public class TestAPI {
     @Test
     public void testAPICase() throws IOException {
         systemLog = new SystemLog();
+        SoftAssert asserts=new SoftAssert();
         Data getData = getRequest(api_url);
         if (getData!=null)
         for (int currentPage = getData.page; currentPage <= getData.total_pages; currentPage++)
@@ -68,7 +70,8 @@ public class TestAPI {
                      try{
                          jsonParser(getRequest(api_url+"?page="+currentPage),
                                  cfgUsrName.get(i),
-                                 cfgUsrEmail.get(i));
+                                 cfgUsrEmail.get(i),
+                                 asserts);
                      }catch (Exception e)
                      {
                          systemLog.loggerAPIOutputWarning(e.toString());
@@ -77,6 +80,7 @@ public class TestAPI {
                  }
 
              }
+        asserts.assertAll();
         }
 
     public Data getRequest (String url) throws IOException{
@@ -92,18 +96,13 @@ public class TestAPI {
         return null;
     }
 
-    public void jsonParser(Data gsonData, String usr, String email){
-            for (UserList userListData : gsonData.data) {
+    public void jsonParser(Data gsonData, String usr, String email,SoftAssert asr){
 
-                if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
-                        (userListData.email.equals(email))) {
-                    systemLog.loggerAPIOutputWarning(
-                    "The User " + usr + " has an email address " + email);
-                }
-
+        for (UserList userListData : gsonData.data) {
                 if ((userListData.first_name + " " + userListData.last_name).equals(usr))
                 {
-                    Assert.assertEquals(email,userListData.email);
+                    asr.assertEquals(email,userListData.email,"The User " + usr + " has an email address " + email);
+                    systemLog.loggerAPIOutputWarning(usr + " = " + email);
                 }
             }
     }
