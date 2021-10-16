@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.io.IOException;
@@ -41,8 +40,6 @@ public class TestAPI {
 
     @BeforeMethod
     public void getConfig(){
-
-
         try {
         api_url = ConfigurationProperties.getProperty("api_url");
         totalUsers = Integer.parseInt(ConfigurationProperties.getProperty("totalUsers"));
@@ -97,7 +94,6 @@ public class TestAPI {
     }
 
     public void jsonParser(Data gsonData, String usr, String email,SoftAssert asr){
-
         for (UserList userListData : gsonData.data) {
                 if ((userListData.first_name + " " + userListData.last_name).equals(usr))
                 {

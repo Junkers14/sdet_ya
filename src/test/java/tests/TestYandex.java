@@ -79,14 +79,14 @@ public class TestYandex {
         chromeControl.driverWaitForDocumentReady(5);
         systemLog.loggerWebOutput("Стало писем с темой \"" + theme + "\" = " +
                 (lettersAfterTest = checkMailStatusPage.mailCount()));
-        Assert.assertEquals(lettersAfterTest,lettersBeforeTest+1);
+        Assert.assertEquals(lettersAfterTest,lettersBeforeTest+1,
+                "the number of emails should increase");
     }
 
 
 
     @AfterTest
-    public void after_test(){
+    public void afterTest(){
             driver.quit();
-
     }
 }
