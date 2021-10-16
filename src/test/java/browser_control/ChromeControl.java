@@ -1,4 +1,4 @@
-package BrowserControl;
+package browser_control;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,14 +13,14 @@ public class ChromeControl {
         this.driver = driver;
     }
 
-    public void CloseTab (int tabIdForClose, int tabIdForFocus){
+    public void closeTab(int tabIdForClose, int tabIdForFocus){
         ArrayList<String> browserTabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(browserTabs.get(tabIdForClose));
         driver.close();
         driver.switchTo().window(browserTabs.get(tabIdForFocus));
     }
 
-    public void DriverWaitForDocumentReady (int timeInSeconds){
+    public void driverWaitForDocumentReady(int timeInSeconds){
        new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds)).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript(
                         "return document.readyState").equals("complete"));

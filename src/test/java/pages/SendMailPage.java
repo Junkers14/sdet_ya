@@ -1,6 +1,5 @@
-package Pages;
+package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,6 +32,24 @@ public class SendMailPage {
     private WebElement inputLetterText;
 
     /**
+     * определение локатора кнопки "Написать письмо"
+     */
+    @FindBy (xpath = "//span[@class='mail-ComposeButton-Text']")
+    private WebElement clickNewMailBtn;
+
+    /**
+     * определение локатора кнопки "Отправить"
+     */
+    @FindBy (className = "ComposeSendButton_desktop")
+    private WebElement clickSendBtn;
+
+    /**
+     * определение локатора кнопки "Вернуться в почту" на всплывающем фрейме после успешной отправки
+     */
+    @FindBy (className = "ComposeDoneScreen-Link")
+    private WebElement clickReturnToInbox;
+
+    /**
      * метод для ввода в поле "Кому"
      */
     public void inputMail(String input) {
@@ -51,20 +68,22 @@ public class SendMailPage {
         inputLetterText.sendKeys(input); }
 
     /**
-     * нажатие на кнопку "Написать"
+     *  нажатие на кнопку "Написать"
      */
     public void clickNewMailBtn (){
-        driver.findElement(By.xpath("//span[@class='mail-ComposeButton-Text']")).click(); }
+        clickNewMailBtn.click(); }
 
     /**
      * нажатие на кнопку "Отправить"
      */
     public void clickSendBtn (){
-        driver.findElement(By.className("ComposeSendButton_desktop")).click(); }
+        clickSendBtn.click(); }
 
-
+    /**
+     * нажатие на кнопку "Вернуться в почту" на всплывающем фрейме после успешной отправки
+     */
     public void clickReturnToInbox () {
-            driver.findElement(By.className("ComposeDoneScreen-Link")).click();
+        clickReturnToInbox.click();
     }
 
 
