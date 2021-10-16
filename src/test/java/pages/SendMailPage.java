@@ -5,10 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class sendMailPage {
+public class SendMailPage {
 
     public WebDriver driver;
-    public sendMailPage(WebDriver driver){
+    public SendMailPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }

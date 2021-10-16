@@ -1,13 +1,14 @@
 package tests;
 
-import browser_control.chromeControl;
+import browser_control.ChromeControl;
 import config.ConfigurationProperties;
 import log_workers.SystemLog;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import pages.checkMailStatusPage;
-import pages.loginToYandexMailPage;
-import pages.openYandexPage;
-import pages.sendMailPage;
+import pages.CheckMailStatusPage;
+import pages.LoginToYandexMailPage;
+import pages.OpenYandexPage;
+import pages.SendMailPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeMethod;
@@ -18,18 +19,18 @@ import java.util.logging.LogManager;
 
 
 public class TestYandex {
-    public static pages.openYandexPage openYandexPage;
-    public static pages.loginToYandexMailPage loginToYandexMailPage;
-    public static pages.checkMailStatusPage checkMailStatusPage;
+    public static OpenYandexPage openYandexPage;
+    public static LoginToYandexMailPage loginToYandexMailPage;
+    public static CheckMailStatusPage checkMailStatusPage;
     public static WebDriver driver;
-    public static pages.sendMailPage sendMailPage;
-    public static browser_control.chromeControl chromeControl;
+    public static SendMailPage sendMailPage;
+    public static ChromeControl chromeControl;
     public static SystemLog systemLog;
+    String usr, psswd, theme, mail_url;
 
 
     @BeforeMethod
-    public static void setup(){
-
+    public void setup(){
         try {
             LogManager.getLogManager().readConfiguration(
                     TestYandex.class.getResourceAsStream("/logging.properties"));
@@ -41,14 +42,18 @@ public class TestYandex {
                 ConfigurationProperties.getProperty("path_to_chromedriver_win"));
         systemLog = new SystemLog();
         driver = new ChromeDriver();
-        openYandexPage = new openYandexPage(driver);
-        loginToYandexMailPage = new loginToYandexMailPage(driver);
-        checkMailStatusPage = new checkMailStatusPage(driver);
-        sendMailPage = new sendMailPage(driver);
-        chromeControl = new chromeControl(driver);
+        openYandexPage = new OpenYandexPage(driver);
+        loginToYandexMailPage = new LoginToYandexMailPage(driver);
+        checkMailStatusPage = new CheckMailStatusPage(driver);
+        sendMailPage = new SendMailPage(driver);
+        chromeControl = new ChromeControl(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get(config.ConfigurationProperties.getProperty("url"));
+        driver.get(ConfigurationProperties.getProperty("url"));
+        usr = ConfigurationProperties.getProperty("usr");
+        psswd = ConfigurationProperties.getProperty("psswd");
+        theme = ConfigurationProperties.getProperty("theme");
+        mail_url = ConfigurationProperties.getProperty("mail_url");
         systemLog.loggerWebOutput("Setup is completed");
     }
 
@@ -56,34 +61,25 @@ public class TestYandex {
     public void testYandexSendMailCase(){
         int lettersBeforeTest, lettersAfterTest;
         openYandexPage.clickLoginBtn();
-        loginToYandexMailPage.inputLogin(ConfigurationProperties.getProperty("usr"));
+        loginToYandexMailPage.inputLogin(usr);
         loginToYandexMailPage.clickLoginUsrBtn();
-        loginToYandexMailPage.inputPasswd(ConfigurationProperties.getProperty("psswd"));
+        loginToYandexMailPage.inputPasswd(psswd);
         loginToYandexMailPage.clickLoginUsrBtn();
         checkMailStatusPage.clickMailBtn();
         chromeControl.closeTab(0, 1);
-        systemLog.loggerWebOutput("Было писем с темой \"" +
-                ConfigurationProperties.getProperty("theme") + "\" = " +
+        systemLog.loggerWebOutput("Было писем с темой \"" + theme + "\" = " +
                 (lettersBeforeTest = checkMailStatusPage.mailCount()));
         sendMailPage.clickNewMailBtn();
-        sendMailPage.inputSubj(ConfigurationProperties.getProperty("theme"));
-        sendMailPage.inputMail(ConfigurationProperties.getProperty("usr")+"@yandex.ru");
+        sendMailPage.inputSubj(theme);
+        sendMailPage.inputMail(usr+"@yandex.ru");
         sendMailPage.inputLetterText("Найдено " + lettersBeforeTest + " писем\\ьма");
         sendMailPage.clickSendBtn();
         sendMailPage.clickReturnToInbox();
-        driver.get(ConfigurationProperties.getProperty("mail_url"));
+        driver.get(mail_url);
         chromeControl.driverWaitForDocumentReady(5);
-        systemLog.loggerWebOutput("Стало писем с темой \"" +
-                ConfigurationProperties.getProperty("theme") + "\" = " +
+        systemLog.loggerWebOutput("Стало писем с темой \"" + theme + "\" = " +
                 (lettersAfterTest = checkMailStatusPage.mailCount()));
-        if (lettersBeforeTest < lettersAfterTest)
-            systemLog.loggerWebOutput(
-                    "C каждым запуском теста, кол-во писем с темой " +
-                            ConfigurationProperties.getProperty("theme")+ " увеличивается");
-            else
-            systemLog.loggerWebOutput(
-                    "ERROR! C каждым запуском теста, кол-во писем с темой " +
-                            ConfigurationProperties.getProperty("theme")+ " НЕ увеличивается");
+        Assert.assertEquals(lettersAfterTest,lettersBeforeTest+1);
     }
 
 

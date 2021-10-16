@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class loginToYandexMailPage {
+public class LoginToYandexMailPage {
     public WebDriver driver;
-    public loginToYandexMailPage(WebDriver driver){
+    public LoginToYandexMailPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }

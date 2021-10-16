@@ -9,9 +9,9 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class checkMailStatusPage {
+public class CheckMailStatusPage {
     public WebDriver driver;
-    public checkMailStatusPage(WebDriver driver){
+    public CheckMailStatusPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }

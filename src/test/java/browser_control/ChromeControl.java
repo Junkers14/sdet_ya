@@ -6,10 +6,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class chromeControl {
+public class ChromeControl {
 
     public WebDriver driver;
-    public chromeControl(WebDriver driver){
+    public ChromeControl(WebDriver driver){
         this.driver = driver;
     }
 
