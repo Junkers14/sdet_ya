@@ -68,9 +68,15 @@ public class TestAPI {
         for (int currentPage = getData.page; currentPage <= getData.total_pages; currentPage++)
              {
                  for (int i=0; i<cfgUsrName.size(); i++){
-                     jsonParser(getRequest(api_url+"?page="+currentPage),
-                             cfgUsrName.get(i),
-                             cfgUsrEmail.get(i));
+                     try{
+                         jsonParser(getRequest(api_url+"?page="+currentPage),
+                                 cfgUsrName.get(i),
+                                 cfgUsrEmail.get(i));
+                     }catch (Exception e)
+                     {
+                         systemLog.loggerAPIOutputWarning(e.toString());
+                     }
+
                  }
 
              }
