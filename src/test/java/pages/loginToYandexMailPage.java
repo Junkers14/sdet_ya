@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginToYandexMailPage {
+public class loginToYandexMailPage {
     public WebDriver driver;
-    public LoginToYandexMailPage (WebDriver driver){
+    public loginToYandexMailPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }
@@ -19,20 +19,10 @@ public class LoginToYandexMailPage {
     private WebElement inputLoginField;
 
     /**
-     * метод для ввода login
+     * определение локатора для кнопки авторизации
      */
-    public void inputLogin(String input) {
-        inputLoginField.sendKeys(input); }
-
-
     @FindBy(xpath = "//button[@id='passp:sign-in']")
     private WebElement clickLoginUsrBtn;
-
-    /**
-     * метод для нажатия кнопки авторизации пользователя
-     */
-    public void clickLoginUsrBtn (){
-        clickLoginUsrBtn.click();}
 
     /**
      * определение локатора поля ввода passwd
@@ -41,11 +31,21 @@ public class LoginToYandexMailPage {
     private WebElement inputPasswdField;
 
     /**
+     * метод для ввода login
+     */
+    public void inputLogin(String input) {
+        inputLoginField.sendKeys(input); }
+
+    /**
+     * метод для нажатия кнопки авторизации пользователя
+     */
+    public void clickLoginUsrBtn (){
+        clickLoginUsrBtn.click();}
+
+    /**
      * метод для ввода passwd
      */
     public void inputPasswd(String input) {
         inputPasswdField.sendKeys(input); }
-
-
 
 }

@@ -5,10 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class SendMailPage {
+public class sendMailPage {
 
     public WebDriver driver;
-    public SendMailPage(WebDriver driver){
+    public sendMailPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }
@@ -32,6 +32,24 @@ public class SendMailPage {
     private WebElement inputLetterText;
 
     /**
+     * определение локатора кнопки "Написать письмо"
+     */
+    @FindBy (xpath = "//span[@class='mail-ComposeButton-Text']")
+    private WebElement clickNewMailBtn;
+
+    /**
+     * определение локатора кнопки "Отправить"
+     */
+    @FindBy (className = "ComposeSendButton_desktop")
+    private WebElement clickSendBtn;
+
+    /**
+     * определение локатора кнопки "Вернуться в почту" на всплывающем фрейме после успешной отправки
+     */
+    @FindBy (className = "ComposeDoneScreen-Link")
+    private WebElement clickReturnToInbox;
+
+    /**
      * метод для ввода в поле "Кому"
      */
     public void inputMail(String input) {
@@ -50,31 +68,22 @@ public class SendMailPage {
         inputLetterText.sendKeys(input); }
 
     /**
-     * поиск и нажатие на кнопку "Написать"
+     *  нажатие на кнопку "Написать"
      */
-    @FindBy (xpath = "//span[@class='mail-ComposeButton-Text']")
-    private WebElement clickNewMailBtn;
-
     public void clickNewMailBtn (){
         clickNewMailBtn.click(); }
 
     /**
-     * поиск и нажатие на кнопку "Отправить"
+     * нажатие на кнопку "Отправить"
      */
-    @FindBy (className = "ComposeSendButton_desktop")
-    private WebElement clickSendBtn;
-
     public void clickSendBtn (){
         clickSendBtn.click(); }
 
     /**
-     * поиск и нажатие на кнопку "Вернуться в почту" на всплывающем фрейме после успешной отправки
+     * нажатие на кнопку "Вернуться в почту" на всплывающем фрейме после успешной отправки
      */
-    @FindBy (className = "ComposeDoneScreen-Link")
-    private WebElement clickReturnToInbox;
-
     public void clickReturnToInbox () {
-            clickReturnToInbox.click();
+        clickReturnToInbox.click();
     }
 
 

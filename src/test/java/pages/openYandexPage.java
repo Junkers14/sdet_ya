@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class OpenYandexPage {
+public class openYandexPage {
     public WebDriver driver;
-    public OpenYandexPage(WebDriver driver){
+    public openYandexPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver = driver;
     }
