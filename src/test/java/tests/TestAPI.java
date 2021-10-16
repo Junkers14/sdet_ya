@@ -14,7 +14,7 @@ import log_workers.SystemLog;
 
 public class TestAPI {
     private static SystemLog systemLog;
-    class Data{
+    static class Data{
         public int page;
         public int per_page;
         public int total;
@@ -22,7 +22,7 @@ public class TestAPI {
         public List<UserList> data;
     }
 
-    class UserList {
+    static class UserList {
         public int id;
         public String email;
         public String first_name;
@@ -36,6 +36,7 @@ public class TestAPI {
         systemLog = new SystemLog();
         Data getData = getRequest(ConfigurationProperties.getProperty("api_url"));
 
+        if (getData!=null)
         for (int currentPage = getData.page; currentPage <= getData.total_pages; currentPage++)
              {
             jsonParser(getRequest(ConfigurationProperties.getProperty("api_url")+"?page="+currentPage),
@@ -57,18 +58,12 @@ public class TestAPI {
         return null;
     }
 
-
     public void jsonParser(Data gsonData, String usr, String email){
-        if (gsonData!=null) {
             for (UserList userListData : gsonData.data) {
                 if (((userListData.first_name + " " + userListData.last_name).equals(usr)) &&
                         (userListData.email.equals(email))) systemLog.loggerAPIOutputWarning(
                         "The User " + usr + " has an email address " + email);
             }
-        }
-        else{
-            systemLog.loggerAPIOutputWarning("JSON DATA ERROR!");
-        }
     }
 
 
